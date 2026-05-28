@@ -42,7 +42,7 @@ OPENAI_MINI_MODEL = "gpt-4o-mini"
 def call_openai(
     prompt: str,
     model: str = OPENAI_MODEL,
-    temperature: float = 1.5,
+    temperature: float = 0.7,
     top_p: float = 0.9,
     max_tokens: int = 256,
 ) -> tuple[str, float]:
@@ -286,16 +286,3 @@ def format_comparison_table(results: list[dict]) -> str:
         mini_response = result["mini_response"][:40] + "..." if len(result["mini_response"]) > 40 else result["mini_response"]
         table += f"{prompt} | {gpt4o_response} | {mini_response} | {result['gpt4o_latency']:.2f} | {result['mini_latency']:.2f}\n"
     return table
-
-# ---------------------------------------------------------------------------
-# Entry point for manual testing
-# ---------------------------------------------------------------------------
-if __name__ == "__main__":
-    test_prompt = "Explain the difference between temperature and top_p in one sentence."
-    print("=== Comparing models ===")
-    result = compare_models(test_prompt)
-    for key, value in result.items():
-        print(f"{key}: {value}")
-
-    print("\n=== Starting chatbot (type 'quit' to exit) ===")
-    streaming_chatbot()
